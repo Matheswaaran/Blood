@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_SHORT).show();
 //        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-//        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
     }
 
     private boolean validateEmail(){
