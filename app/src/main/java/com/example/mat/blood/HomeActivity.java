@@ -1,8 +1,13 @@
 package com.example.mat.blood;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,23 +17,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.mat.blood.Fragments.CreateReqFragment;
+import com.example.mat.blood.Fragments.DeleteReqFragment;
+import com.example.mat.blood.Fragments.HomeFragment;
+import com.example.mat.blood.Fragments.UserProfileFragment;
+import com.example.mat.blood.Fragments.ViewReqFragment;
+import com.example.mat.blood.Fragments.ViewRespFragment;
 
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    int containerId = R.id.fragment_holder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Home");
+
+        //Set HomeFragment as Default
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentTransaction ft = fragmentManager.beginTransaction();
+        HomeFragment homeFragment = new HomeFragment();
+        ft.add(containerId,homeFragment,HomeFragment.class.getSimpleName());
+        ft.commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                CreateReqFragment createReqFragment = new CreateReqFragment();
+                ft.replace(containerId,createReqFragment,CreateReqFragment.class.getSimpleName());
             }
         });
 
@@ -40,6 +61,7 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -74,27 +96,39 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            // Handle the camera action
+        if (id == R.id.nav_home){
+            HomeFragment homeFragment = new HomeFragment();
+            ft.replace(containerId,homeFragment,HomeFragment.class.getSimpleName());
         } else if (id == R.id.nav_create_req) {
-
+            CreateReqFragment createReqFragment = new CreateReqFragment();
+            ft.replace(containerId,createReqFragment,CreateReqFragment.class.getSimpleName());
         } else if (id == R.id.nav_view_req) {
-
+            ViewReqFragment viewReqFragment = new ViewReqFragment();
+            ft.replace(containerId,viewReqFragment, ViewReqFragment.class.getSimpleName());
         } else if (id == R.id.nav_view_resp) {
-
+            ViewRespFragment viewRespFragment = new ViewRespFragment();
+            ft.replace(containerId,viewRespFragment, ViewReqFragment.class.getSimpleName());
         } else if (id == R.id.nav_del_req) {
-
+            DeleteReqFragment deleteReqFragment = new DeleteReqFragment();
+            ft.replace(containerId,deleteReqFragment, DeleteReqFragment.class.getSimpleName());
         } else if (id == R.id.nav_profile) {
-
+            UserProfileFragment userProfileFragment = new UserProfileFragment();
+            ft.replace(containerId,userProfileFragment, UserProfileFragment.class.getSimpleName());
         } else if (id == R.id.nav_logout) {
-
+            Toast.makeText(getBaseContext(), "Logout Successful", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
         }
+        ft.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
