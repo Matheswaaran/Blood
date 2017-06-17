@@ -49,6 +49,15 @@
             android:layout_marginTop="40dp"
             android:textColor="@android:color/white"/>
 
+        <TextView
+            android:id="@+id/login_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="25dp"
+            android:text="New User? Register Here!"
+            android:textAlignment="center"
+            android:textSize="22dp"/>
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

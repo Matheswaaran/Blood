@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
     private Button loginBtn;
+    private TextView loginReg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         inputEmail = (EditText)findViewById(R.id.login_email);
         inputPassword = (EditText)findViewById(R.id.login_pass);
         loginBtn = (Button)findViewById(R.id.login_btn);
+        loginReg = (TextView)findViewById(R.id.login_register);
 
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
@@ -41,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitForm(v);
+            }
+        });
+        loginReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
     }
