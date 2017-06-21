@@ -9,23 +9,20 @@
         android:roundIcon="@drawable/blood"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mat.blood.MainActivity" />
-        </activity>
-        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>

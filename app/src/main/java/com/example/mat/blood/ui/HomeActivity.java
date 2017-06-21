@@ -1,11 +1,9 @@
-package com.example.mat.blood;
+package com.example.mat.blood.ui;
 
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -25,8 +23,12 @@ import com.example.mat.blood.Fragments.HomeFragment;
 import com.example.mat.blood.Fragments.UserProfileFragment;
 import com.example.mat.blood.Fragments.ViewReqFragment;
 import com.example.mat.blood.Fragments.ViewRespFragment;
+import com.example.mat.blood.R;
+import com.example.mat.blood.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    String TAG = HomeActivity.class.getSimpleName();
+    Utils utils;
 
     int containerId = R.id.fragment_holder;
     @Override
@@ -36,6 +38,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Home");
+
+        utils = new Utils(this);
 
         //Set HomeFragment as Default
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -124,9 +128,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             UserProfileFragment userProfileFragment = new UserProfileFragment();
             ft.replace(containerId,userProfileFragment, UserProfileFragment.class.getSimpleName());
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(getBaseContext(), "Logout Successful", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(intent);
+            utils.signOut();
         }
         ft.commit();
 

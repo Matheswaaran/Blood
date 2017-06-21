@@ -1,4 +1,4 @@
-package com.example.mat.blood;
+package com.example.mat.blood.ui;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
@@ -16,7 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.example.mat.blood.R;
+import com.example.mat.blood.ui.HomeActivity;
+import com.example.mat.blood.ui.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity {
 

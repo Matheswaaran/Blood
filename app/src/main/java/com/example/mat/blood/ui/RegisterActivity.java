@@ -1,4 +1,4 @@
-package com.example.mat.blood;
+package com.example.mat.blood.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mat.blood.R;
+import com.example.mat.blood.ui.HomeActivity;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 public class RegisterActivity extends AppCompatActivity {
