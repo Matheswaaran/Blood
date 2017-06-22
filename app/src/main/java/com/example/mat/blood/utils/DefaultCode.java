@@ -13,6 +13,7 @@ public abstract class DefaultCode {
     public static final int ERROR_NOOFCOL = 9999;
 
     public static final String FIREBASE_USERS = "users";
+    public static final String FIREBASE_BLOOD_REQUESTS = "bloodRequests";
 
     public static final String INTENT_PROFILE_KEY = "profile_key";
     public static final String INTENT_INITIAL_PROFILE_EDIT = "intent_profile_edit";

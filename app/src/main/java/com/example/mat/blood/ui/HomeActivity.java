@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setTitle("Home");
 
         utils = new Utils(this);
+        utils.loadUserDetails();
 
         //Set HomeFragment as Default
         FragmentManager fragmentManager = getSupportFragmentManager();

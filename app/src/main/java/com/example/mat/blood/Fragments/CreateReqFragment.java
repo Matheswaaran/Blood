@@ -7,26 +7,36 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.mat.blood.R;
+import com.example.mat.blood.pojo.BloodRequest;
+import com.example.mat.blood.pojo.UserProfile;
+import com.example.mat.blood.utils.Utils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CreateReqFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CreateReqFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import static com.example.mat.blood.utils.DefaultCode.FIREBASE_BLOOD_REQUESTS;
+
 public class CreateReqFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    String TAG = CreateReqFragment.class.getSimpleName();
+    Utils utils;
+    Context context;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    String[] blood_groups;
+
+    EditText Edit_HospiitalName;
+    Button Btn_CreateRequest;
+    MaterialBetterSpinner Spinner_BloogGroup;
+
+    String bloodGroup = "";
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,38 +44,68 @@ public class CreateReqFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateReqFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateReqFragment newInstance(String param1, String param2) {
-        CreateReqFragment fragment = new CreateReqFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_req, container, false);
+        View v =  inflater.inflate(R.layout.fragment_create_req, container, false);
+        context = v.getContext();
+        utils = new Utils(context);
+
+        Edit_HospiitalName = (EditText)v.findViewById(R.id.edit_hospitalName);
+        Btn_CreateRequest = (Button)v.findViewById(R.id.btn_createRequest);
+        Spinner_BloogGroup = (MaterialBetterSpinner)v.findViewById(R.id.spinner_bloodGroup);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference(FIREBASE_BLOOD_REQUESTS);
+
+        blood_groups = getResources().getStringArray(R.array.blood_groups);
+        bloodGroup = blood_groups[0];
+
+        ArrayAdapter<String> blood_adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, blood_groups);
+        Spinner_BloogGroup.setAdapter(blood_adapter);
+        Spinner_BloogGroup.setSelection(0);
+        Spinner_BloogGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        Spinner_BloogGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bloodGroup = adapterView.getItemAtPosition(i).toString();
+            }
+        });
+
+        Btn_CreateRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createRequest();
+            }
+        });
+
+
+        return v;
+    }
+
+    void createRequest(){
+        String hospitalName = Edit_HospiitalName.getText().toString();
+        if(!utils.isEmptyString(hospitalName,bloodGroup)){
+            UserProfile userProfile = utils.getSignInUser();
+            BloodRequest bloodRequest = new BloodRequest(bloodGroup,userProfile.getUid(),userProfile.getUserName(),hospitalName,utils.getTimeStamp());
+            databaseReference.push().setValue(bloodRequest);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,16 +129,7 @@ public class CreateReqFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

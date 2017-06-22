@@ -9,6 +9,10 @@ public class UserProfile {
 
     private String FullName,BloodGroup,AddressLine1,AddressLine2,City,State;
 
+    public UserProfile(){
+
+    }
+
     public UserProfile(String uid, String userName, String emailId, String photoUrl) {
         Uid = uid;
         UserName = userName;
